@@ -1,0 +1,39 @@
+W0521 00:40:30.087000 44995 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Loading model (cpu, torch.float32)...
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:  10%|▉         | 189/1951 [00:00<00:00, 1848.85it/s]Loading weights:  19%|█▉        | 375/1951 [00:00<00:00, 1805.68it/s]Loading weights:  29%|██▉       | 566/1951 [00:00<00:00, 1847.91it/s]Loading weights:  39%|███▊      | 754/1951 [00:04<00:10, 111.55it/s] Loading weights:  39%|███▊      | 754/1951 [00:20<00:10, 111.55it/s]Loading weights:  39%|███▊      | 755/1951 [00:27<01:33, 12.75it/s] Loading weights:  39%|███▉      | 758/1951 [00:27<01:32, 12.84it/s]Loading weights:  43%|████▎     | 832/1951 [00:28<01:01, 18.24it/s]Loading weights:  54%|█████▍    | 1061/1951 [00:28<00:20, 42.58it/s]Loading weights: 100%|██████████| 1951/1951 [00:28<00:00, 69.09it/s]
+  layer_specs: 15 cache layers (sliding: 12, full: 3)
+  k_caches[0] shape: (1, 1, 512, 256), dtype: torch.float32
+
+prompt: 'The capital of France is' (14 tokens)
+
+Feeding 14 prompt tokens + decoding 9 more...
+  step  0 prompt[ 0] tok=     2 -> (filling cache)
+  step  1 prompt[ 1] tok=   105 -> (filling cache)
+  step  2 prompt[ 2] tok=  2364 -> (filling cache)
+  step  3 prompt[ 3] tok=   107 -> (filling cache)
+  step  4 prompt[ 4] tok=   818 -> (filling cache)
+  step  5 prompt[ 5] tok=  5279 -> (filling cache)
+  step  6 prompt[ 6] tok=   529 -> (filling cache)
+  step  7 prompt[ 7] tok=  7001 -> (filling cache)
+  step  8 prompt[ 8] tok=   563 -> (filling cache)
+  step  9 prompt[ 9] tok=   106 -> (filling cache)
+  step 10 prompt[10] tok=   107 -> (filling cache)
+  step 11 prompt[11] tok=   105 -> (filling cache)
+  step 12 prompt[12] tok=  4368 -> (filling cache)
+  step 13 prompt[13] tok=   107 -> next=818 ('The')
+  step 14 gen[ 0]    tok=   818 -> next=5279 (' capital')
+  step 15 gen[ 1]    tok=  5279 -> next=529 (' of')
+  step 16 gen[ 2]    tok=   529 -> next=7001 (' France')
+  step 17 gen[ 3]    tok=  7001 -> next=563 (' is')
+  step 18 gen[ 4]    tok=   563 -> next=5213 (' **')
+  step 19 gen[ 5]    tok=  5213 -> next=50429 ('Paris')
+  step 20 gen[ 6]    tok= 50429 -> next=84750 ('**.')
+  step 21 gen[ 7]    tok= 84750 -> next=106 ('<turn|>')
+  step 22 gen[ 8]    tok=   106 -> next=106 ('<turn|>')
+
+Generated ids:   [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+Reference ids:   [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+Generated text:  'The capital of France is **Paris**.'
+
+Match: 9/9 tokens
+VERDICT: PASS

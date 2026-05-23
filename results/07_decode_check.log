@@ -1,0 +1,53 @@
+W0520 00:16:21.943000 4007 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Loading model on cpu (torch.float32)...
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:  10%|▉         | 189/1951 [00:00<00:01, 1715.32it/s]Loading weights:  19%|█▉        | 375/1951 [00:00<00:00, 1763.31it/s]Loading weights:  29%|██▉       | 561/1951 [00:00<00:00, 1794.90it/s]Loading weights:  39%|███▊      | 752/1951 [00:00<00:00, 1838.60it/s]Loading weights:  39%|███▊      | 752/1951 [00:20<00:00, 1838.60it/s]Loading weights:  39%|███▊      | 755/1951 [00:23<01:21, 14.61it/s]  Loading weights:  54%|█████▍    | 1052/1951 [00:23<00:27, 32.79it/s]Loading weights: 100%|██████████| 1951/1951 [00:23<00:00, 83.07it/s]
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+Tokenizing prompt: 'The capital of France is'
+  prompt seq_len = 14
+
+[reference] running model.generate(max_new_tokens=10)...
+[reference] generated ids: [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+[reference] generated text: 'The capital of France is **Paris**.'
+
+[wrapper] running prefill + decode loop...
+  prefill -> next token: id=818 text='The'
+  decode step 1 (cache_pos=14) -> id=5279 text=' capital'
+  decode step 2 (cache_pos=15) -> id=529 text=' of'
+  decode step 3 (cache_pos=16) -> id=7001 text=' France'
+  decode step 4 (cache_pos=17) -> id=563 text=' is'
+  decode step 5 (cache_pos=18) -> id=5213 text=' **'
+  decode step 6 (cache_pos=19) -> id=50429 text='Paris'
+  decode step 7 (cache_pos=20) -> id=84750 text='**.'
+  decode step 8 (cache_pos=21) -> id=106 text='<turn|>'
+  decode step 9 (cache_pos=22) -> id=106 text='<turn|>'
+[wrapper] generated ids: [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106, 106]
+[wrapper] generated text: 'The capital of France is **Paris**.'
+
+======================================================================
+  GREEDY COMPARISON: wrapper prefill+decode vs model.generate
+======================================================================
+  ref length: 9 (may be < N_NEW_TOKENS=10 if EOS hit)
+  prefix match: 9/9 tokens
+    [ 0] ✓ wrapper=818 ref=818
+    [ 1] ✓ wrapper=5279 ref=5279
+    [ 2] ✓ wrapper=529 ref=529
+    [ 3] ✓ wrapper=7001 ref=7001
+    [ 4] ✓ wrapper=563 ref=563
+    [ 5] ✓ wrapper=5213 ref=5213
+    [ 6] ✓ wrapper=50429 ref=50429
+    [ 7] ✓ wrapper=84750 ref=84750
+    [ 8] ✓ wrapper=106 ref=106
+  (wrapper produced 1 extra token(s) past ref EOS: [106])
+======================================================================
+
+[decode-export] attempting torch.export with seq=1 (no Dim)...
+[decode-export] ✓ Export SUCCEEDED
+  inputs: 4, outputs: 1
+
+======================================================================
+  SUMMARY
+======================================================================
+  wrapper greedy == model.generate:  PASS
+  decode (seq=1) export traces:       PASS
+======================================================================

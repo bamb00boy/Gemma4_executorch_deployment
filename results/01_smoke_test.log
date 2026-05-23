@@ -1,0 +1,38 @@
+W0519 18:58:54.284000 44934 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Using device: mps
+Loading processor and model (first run downloads ~10GB)...
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:   7%|▋         | 127/1951 [00:00<00:01, 1269.73it/s]Loading weights:  14%|█▍        | 277/1951 [00:00<00:01, 1400.40it/s]Loading weights:  21%|██▏       | 418/1951 [00:00<00:01, 1402.52it/s]Loading weights:  29%|██▊       | 559/1951 [00:00<00:01, 1315.57it/s]Loading weights:  35%|███▌      | 692/1951 [00:00<00:01, 1193.99it/s]Loading weights:  35%|███▌      | 692/1951 [00:17<00:01, 1193.99it/s]Loading weights:  39%|███▊      | 755/1951 [00:26<01:36, 12.43it/s]  Loading weights:  63%|██████▎   | 1221/1951 [00:27<00:19, 37.23it/s]Loading weights:  99%|█████████▉| 1941/1951 [00:27<00:00, 91.40it/s]Loading weights: 100%|██████████| 1951/1951 [00:27<00:00, 71.76it/s]
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+=== Test 1: text generation ===
+The capital of France is **Paris**.
+
+=== Test 2: image + text ===
+A close-up photograph features vibrant pink and red flowers amidst green foliage, with a prominent pink aster in the center.
+
+=== Module tree (for export wrapper design) ===
+model
+model.language_model
+model.language_model.embed_tokens
+model.language_model.layers
+model.language_model.norm
+model.language_model.rotary_emb
+model.language_model.embed_tokens_per_layer
+model.language_model.per_layer_model_projection
+model.language_model.per_layer_projection_norm
+model.vision_tower
+model.vision_tower.patch_embedder
+model.vision_tower.encoder
+model.vision_tower.pooler
+model.embed_vision
+model.embed_vision.embedding_projection
+model.embed_vision.embedding_pre_projection_norm
+model.audio_tower
+model.audio_tower.subsample_conv_projection
+model.audio_tower.rel_pos_enc
+model.audio_tower.layers
+model.audio_tower.output_proj
+model.embed_audio
+model.embed_audio.embedding_projection
+model.embed_audio.embedding_pre_projection_norm
+lm_head

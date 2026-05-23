@@ -1,0 +1,47 @@
+W0521 09:01:37.657000 60257 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Loading model (cpu, torch.float32)...
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:  10%|▉         | 189/1951 [00:00<00:00, 1836.02it/s]Loading weights:  19%|█▉        | 375/1951 [00:00<00:00, 1844.41it/s]Loading weights:  29%|██▉       | 566/1951 [00:00<00:00, 1870.36it/s]Loading weights:  39%|███▊      | 754/1951 [00:03<00:09, 124.97it/s] Loading weights:  39%|███▊      | 754/1951 [00:20<00:09, 124.97it/s]Loading weights:  39%|███▊      | 755/1951 [00:21<01:12, 16.58it/s] Loading weights:  74%|███████▎  | 1435/1951 [00:21<00:08, 64.13it/s]Loading weights: 100%|██████████| 1951/1951 [00:21<00:00, 90.04it/s]
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/pt2_archive/_package.py:790: UserWarning: The given buffer is not writable, and PyTorch does not support non-writable tensors. This means you can write to the underlying (supposedly non-writable) buffer using the tensor. You may want to copy the buffer to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:1592.)
+  tensor = torch.frombuffer(
+  FP32 model footprint: 20.42 GB
+
+[FP32 baseline] SKIPPED — using cached reference
+  ids:  [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+  text: 'The capital of France is **Paris**.'
+
+[quantize-linears] Int8DynamicActivationIntxWeightConfig(weight=int4, PerGroup(128)) on all nn.Linear...
+  after Linear INT4 quant: 22.03 GB
+[quantize-embeds] replacing embed_tokens_per_layer with hand-rolled Int8Embedding...
+  model.language_model.embed_tokens_per_layer: nn.Embedding -> Int8Embedding (vocab=262144, hidden=8960, INT8 weight + per-row torch.float32 scale)
+  final quantized model footprint: 14.98 GB (unpacked INT4-as-INT8 + INT8 embeds + BF16 norms/scales)
+
+[INT4] generating 10 tokens (sanity check)...
+  ids:  [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+  text: 'The capital of France is **Paris**.'
+
+======================================================================
+  QUANTIZATION QUALITY
+======================================================================
+  prefix token match: 9/9
+  FP32 text: 'The capital of France is **Paris**.'
+  INT4 text: 'The capital of France is **Paris**.'
+======================================================================
+
+[export] building TextWrapperExternal + cache layout...
+  cache layers: 15 (sliding: 12, full: 3)
+
+[export] external-cache .pt2 (seq=1 static, mask_len dynamic [2, 511])...
+  [export] eager sanity check (seq=1)...
+  [export] eager logits shape: (1, 1, 262144)
+  [export] tracing...
+  [export] OK. user inputs: 49, user outputs: 46
+  [export] mutated user inputs: 0
+  [export] saved: /Users/hruthviik/Documents/play_code/gemma4-executorch-pi5/models/gemma4_e2b_text_int4_extcache.pt2 (6.36 GB)
+
+======================================================================
+  PHASE 4 (external cache) SUMMARY
+======================================================================
+  INT4 vs FP32 text match: PASS
+  External-cache .pt2 export: PASS
+======================================================================

@@ -1,0 +1,7 @@
+W0519 20:23:59.415000 2864 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[eager] loading model on cpu (torch.float32)...
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:  10%|▉         | 189/1951 [00:00<00:00, 1771.82it/s]Loading weights:  19%|█▉        | 375/1951 [00:00<00:00, 1772.91it/s]Loading weights:  28%|██▊       | 553/1951 [00:00<00:00, 1698.30it/s]Loading weights:  37%|███▋      | 724/1951 [00:00<00:00, 1450.88it/s]Loading weights:  37%|███▋      | 724/1951 [00:20<00:00, 1450.88it/s]Loading weights:  39%|███▊      | 755/1951 [00:25<01:26, 13.76it/s]  Loading weights:  67%|██████▋   | 1299/1951 [00:25<00:14, 44.32it/s]Loading weights: 100%|██████████| 1951/1951 [00:25<00:00, 76.15it/s]
+[eager] running prefill on prompt: 'The capital of France is' (seq=14)...
+[eager] next token: id=818 text='The'
+[eager] top-5 ids: [818, 100, 1018, 669, 18574]
+[eager] saved reference -> /Users/hruthviik/Documents/play_code/gemma4-executorch-pi5/cache/verify_reference.pkl

@@ -1,0 +1,41 @@
+W0521 00:27:01.196000 44813 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[cpuinfo_utils.cpp:71] Reading file /sys/devices/soc0/image_version
+[cpuinfo_utils.cpp:87] Failed to open midr file /sys/devices/soc0/image_version
+[cpuinfo_utils.cpp:167] Number of efficient cores 4
+prompt: 'The capital of France is' (14 tokens)
+
+Loading /Users/hruthviik/Documents/play_code/gemma4-executorch-pi5/models/gemma4_e2b_text_int4_decode.pte...
+
+Feeding 14 prompt tokens + decoding 9 more...
+(if .pte's saved cumulative_length is non-zero, expect garbage)
+  step  0 prompt[0]=2               -> (filling cache)
+  step  1 prompt[1]=105             -> (filling cache)
+  step  2 prompt[2]=2364            -> (filling cache)
+  step  3 prompt[3]=107             -> (filling cache)
+  step  4 prompt[4]=818             -> (filling cache)
+  step  5 prompt[5]=5279            -> (filling cache)
+  step  6 prompt[6]=529             -> (filling cache)
+  step  7 prompt[7]=7001            -> (filling cache)
+  step  8 prompt[8]=563             -> (filling cache)
+  step  9 prompt[9]=106             -> (filling cache)
+  step 10 prompt[10]=107            -> (filling cache)
+  step 11 prompt[11]=105            -> (filling cache)
+  step 12 prompt[12]=4368           -> (filling cache)
+  step 13 prompt[13]=107            -> next=1408 ('##')
+  step 14 gen[0]=1408               -> next=669 (' The')
+  step 15 gen[1]=669                -> next=2430 (' user')
+  step 16 gen[2]=2430               -> next=563 (' is')
+  step 17 gen[3]=563                -> next=496 (' a')
+  step 18 gen[4]=496                -> next=2430 (' user')
+  step 19 gen[5]=2430               -> next=563 (' is')
+  step 20 gen[6]=563                -> next=496 (' a')
+  step 21 gen[7]=496                -> next=2430 (' user')
+  step 22 gen[8]=2430               -> next=5072 (' seems')
+
+Generated ids:   [1408, 669, 2430, 563, 496, 2430, 563, 496, 2430]
+Reference ids:   [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+Generated text:  '## The user is a user is a user seems'
+Expected text:   'The capital of France is **Paris**.'
+
+Match: 0/9 tokens
+VERDICT: FAIL — need cache externalization or both .pte

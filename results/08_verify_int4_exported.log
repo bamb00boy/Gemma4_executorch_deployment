@@ -1,0 +1,83 @@
+W0520 09:07:42.172000 22133 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/pt2_archive/_package.py:790: UserWarning: The given buffer is not writable, and PyTorch does not support non-writable tensors. This means you can write to the underlying (supposedly non-writable) buffer using the tensor. You may want to copy the buffer to protect its data or make it writable before converting it to a tensor. This type of warning will be suppressed for the rest of this program. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/utils/tensor_new.cpp:1592.)
+  tensor = torch.frombuffer(
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.0.self_attn.lifted_tensor_1` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.1.self_attn.lifted_tensor_4` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.2.self_attn.lifted_tensor_7` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.3.self_attn.lifted_tensor_10` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.4.self_attn.lifted_tensor_13` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.5.self_attn.lifted_tensor_16` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.6.self_attn.lifted_tensor_19` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.7.self_attn.lifted_tensor_22` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.8.self_attn.lifted_tensor_25` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.9.self_attn.lifted_tensor_28` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.10.self_attn.lifted_tensor_31` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.11.self_attn.lifted_tensor_34` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.12.self_attn.lifted_tensor_37` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.13.self_attn.lifted_tensor_40` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.14.self_attn.lifted_tensor_43` requires gradient. but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.0.self_attn.lifted_tensor_1` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.1.self_attn.lifted_tensor_4` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.2.self_attn.lifted_tensor_7` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.3.self_attn.lifted_tensor_10` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.4.self_attn.lifted_tensor_13` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.5.self_attn.lifted_tensor_16` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.6.self_attn.lifted_tensor_19` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.7.self_attn.lifted_tensor_22` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.8.self_attn.lifted_tensor_25` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.9.self_attn.lifted_tensor_28` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.10.self_attn.lifted_tensor_31` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.11.self_attn.lifted_tensor_34` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.12.self_attn.lifted_tensor_37` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.13.self_attn.lifted_tensor_40` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+/opt/anaconda3/envs/gemma4/lib/python3.12/site-packages/torch/export/_unlift.py:837: UserWarning: A model attribute `language_model.layers.14.self_attn.lifted_tensor_43` requires gradient but it's not properly registered as a parameter. torch.export will detach it and treat it as a constant tensor but please register it as parameter instead.
+  unlift_gm = _create_stateful_graph_module(new_gm, ep.range_constraints, ep)
+[exported] loading /Users/hruthviik/Documents/play_code/gemma4-executorch-pi5/models/gemma4_e2b_text_int4_prefill.pt2...
+[exported] running prefill on the same inputs...
+
+======================================================================
+  INT4 CROSS-CHECK
+======================================================================
+  next-token match:    True  (eager=818, exported=818)
+  top-5 ids identical: True
+  max |diff|:          0.0000e+00
+  mean |diff|:         0.0000e+00
+  max relative diff:   0.0000e+00
+  top-5 logits:
+    rank 0: ref=+14.372421  exported=+14.372421  diff=0.00e+00
+    rank 1: ref=+0.272346  exported=+0.272346  diff=0.00e+00
+    rank 2: ref=-0.827263  exported=-0.827263  diff=0.00e+00
+    rank 3: ref=-1.536795  exported=-1.536795  diff=0.00e+00
+    rank 4: ref=-1.576572  exported=-1.576572  diff=0.00e+00
+======================================================================
+  RESULT: PASS
+======================================================================

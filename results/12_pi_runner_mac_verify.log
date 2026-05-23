@@ -1,0 +1,33 @@
+W0522 14:49:13.378000 76351 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[cpuinfo_utils.cpp:71] Reading file /sys/devices/soc0/image_version
+[cpuinfo_utils.cpp:87] Failed to open midr file /sys/devices/soc0/image_version
+[cpuinfo_utils.cpp:167] Number of efficient cores 4
+Loading tokenizer from cache/huggingface/hub/models--google--gemma-4-e2b-it/snapshots/905e84b50c4d2a365ebde34e685027578e6728db/...
+Tokenizing prompt: 'The capital of France is'
+  prompt_len = 14
+
+Loading models/gemma4_e2b_text_int4_extcache.pte...
+  loaded in 4.0s
+Allocating cache tensors...
+  total cache size: 18.9 MB across 15 layers
+
+Feeding 14 prompt tokens (token-by-token; no batched prefill in this design)...
+  prompt feed: 1.95s (14 tokens, 7.20 tok/s, ttft equivalent)
+  first generated token: id=818 text='The'
+
+Decoding up to 19 more tokens...
+  hit EOS (id=106) at decode step 8
+
+Generated (9 tokens): 'The capital of France is **Paris**.'
+
+=== Timing ===
+  prompt feed:      1946 ms  (14 tok @  7.20 tok/s)
+  decode:           1039 ms  (9 tok @  8.66 tok/s)
+  total:            2985 ms
+
+=== Verify ===
+  reference text: 'The capital of France is **Paris**.'
+  generated text: 'The capital of France is **Paris**.'
+  reference ids:  [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+  generated ids:  [818, 5279, 529, 7001, 563, 5213, 50429, 84750, 106]
+  RESULT: PASS

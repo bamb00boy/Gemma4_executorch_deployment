@@ -1,0 +1,126 @@
+W0519 19:40:44.783000 45655 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+Loading model on CPU (inspection only, no generation)...
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:   7%|▋         | 127/1951 [00:00<00:01, 1082.06it/s]Loading weights:  13%|█▎        | 251/1951 [00:00<00:01, 1008.89it/s]Loading weights:  19%|█▉        | 367/1951 [00:00<00:01, 1054.13it/s]Loading weights:  24%|██▍       | 474/1951 [00:00<00:01, 943.38it/s] Loading weights:  29%|██▉       | 570/1951 [00:00<00:01, 880.73it/s]Loading weights:  35%|███▌      | 685/1951 [00:00<00:01, 880.94it/s]Loading weights:  35%|███▌      | 685/1951 [00:20<00:01, 880.94it/s]Loading weights:  39%|███▊      | 755/1951 [00:23<01:31, 13.09it/s] Loading weights:  57%|█████▋    | 1117/1951 [00:23<00:23, 35.59it/s]Loading weights: 100%|██████████| 1951/1951 [00:23<00:00, 83.42it/s]
+
+======================================================================
+  1. model.forward signature
+======================================================================
+(input_ids: torch.LongTensor | None = None, pixel_values: torch.FloatTensor | None = None, pixel_values_videos: torch.FloatTensor | None = None, input_features: torch.FloatTensor | None = None, attention_mask: torch.Tensor | None = None, input_features_mask: torch.Tensor | None = None, position_ids: torch.LongTensor | None = None, image_position_ids: torch.LongTensor | None = None, video_position_ids: torch.LongTensor | None = None, past_key_values: transformers.cache_utils.Cache | None = None, mm_token_type_ids: torch.LongTensor | None = None, inputs_embeds: torch.FloatTensor | None = None, labels: torch.LongTensor | None = None, use_cache: bool | None = None, logits_to_keep: int | torch.Tensor = 0, **kwargs: Unpack[transformers.utils.generic.TransformersKwargs]) -> transformers.models.gemma4.modeling_gemma4.Gemma4CausalLMOutputWithPast
+
+======================================================================
+  2. model.language_model.forward signature
+======================================================================
+(input_ids: torch.LongTensor | None = None, attention_mask: torch.Tensor | None = None, position_ids: torch.LongTensor | None = None, past_key_values: transformers.cache_utils.Cache | None = None, inputs_embeds: torch.FloatTensor | None = None, per_layer_inputs: torch.Tensor | None = None, use_cache: bool | None = None, **kwargs: Unpack[transformers.utils.generic.TransformersKwargs]) -> transformers.modeling_outputs.BaseModelOutputWithPast
+
+Class: Gemma4TextModel
+Module: transformers.models.gemma4.modeling_gemma4
+
+======================================================================
+  3. Config (shape-relevant fields)
+======================================================================
+  hidden_size: 1536
+  num_hidden_layers: 35
+  num_attention_heads: 8
+  num_key_value_heads: 1
+  head_dim: 256
+  intermediate_size: 6144
+  vocab_size: 262144
+  max_position_embeddings: 131072
+  rope_theta: <not set>
+  sliding_window: 512
+  attn_logit_softcapping: <not set>
+  final_logit_softcapping: 30.0
+  hidden_activation: gelu_pytorch_tanh
+
+======================================================================
+  4. Per-layer embedding modules (new in Gemma 4)
+======================================================================
+
+  embed_tokens_per_layer:
+    type: Gemma4TextScaledWordEmbedding
+    forward sig: (input_ids: torch.Tensor)
+    param count: 2,348,810,240
+    source:
+    def forward(self, input_ids: torch.Tensor):
+        return super().forward(input_ids) * self.embed_scale.to(self.weight.dtype)
+
+
+  per_layer_model_projection:
+    type: Linear
+    forward sig: (input: torch.Tensor) -> torch.Tensor
+    param count: 13,762,560
+    source:
+    def forward(self, input: Tensor) -> Tensor:
+        """
+        Runs the forward pass.
+        """
+        return F.linear(input, self.weight, self.bias)
+
+
+  per_layer_projection_norm:
+    type: Gemma4RMSNorm
+    forward sig: (hidden_states: torch.Tensor) -> torch.Tensor
+    param count: 256
+    source:
+    def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
+        normed_output = self._norm(hidden_states.float())
+        if self.with_scale:
+            normed_output = normed_output * self.weight.float()
+        return normed_output.type_as(hidden_states)
+
+
+======================================================================
+  5. Rotary embedding
+======================================================================
+  type: Gemma4TextRotaryEmbedding
+  forward sig: (x, position_ids, layer_type=None)
+  source:
+    @torch.no_grad()
+    @dynamic_rope_update  # power user: used with advanced RoPE types (e.g. dynamic rope)
+    def forward(self, x, position_ids, layer_type=None):
+        inv_freq = getattr(self, f"{layer_type}_inv_freq")
+        attention_scaling = getattr(self, f"{layer_type}_attention_scaling")
+
+        inv_freq_expanded = inv_freq[None, :, None].float().expand(position_ids.shape[0], -1, 1).to(x.device)
+        position_ids_expanded = position_ids[:, None, :].float()
+
+        device_type = x.device.type if isinstance(x.device.type, str) and x.device.type != "mps" else "cpu"
+        with maybe_autocast(device_type=device_type, enabled=False):  # Force float32
+            freqs = (inv_freq_expanded.float() @ position_ids_expanded.float()).transpose(1, 2)
+            emb = torch.cat((freqs, freqs), dim=-1)
+            cos = emb.cos() * attention_scaling
+            sin = emb.sin() * attention_scaling
+
+        return cos.to(dtype=x.dtype), sin.to(dtype=x.dtype)
+
+
+======================================================================
+  6. One decoder layer
+======================================================================
+  type: Gemma4TextDecoderLayer
+  forward sig: (hidden_states: torch.Tensor, per_layer_input: torch.Tensor = None, shared_kv_states: dict[int, tuple[torch.Tensor, torch.Tensor]] | None = None, position_embeddings: torch.Tensor = None, attention_mask: torch.Tensor | None = None, position_ids: torch.LongTensor | None = None, past_key_values: transformers.cache_utils.Cache | None = None, **kwargs) -> torch.Tensor
+  submodules:
+    - self_attn
+    - mlp
+    - input_layernorm
+    - post_attention_layernorm
+    - pre_feedforward_layernorm
+    - post_feedforward_layernorm
+    - act_fn
+    - per_layer_input_gate
+    - per_layer_projection
+    - post_per_layer_input_norm
+
+  total layers: 35
+
+======================================================================
+  7. Parameter distribution
+======================================================================
+  model.language_model: 4,628,569,344
+  model.vision_tower: 167,364,608
+  model.embed_vision: 1,179,648
+  model.audio_tower: 304,824,608
+  model.embed_audio: 2,359,296
+  lm_head: 402,653,184
+  ---
+  TOTAL: 5,506,950,688

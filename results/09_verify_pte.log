@@ -1,0 +1,24 @@
+W0520 20:48:38.497000 42538 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[cpuinfo_utils.cpp:71] Reading file /sys/devices/soc0/image_version
+[cpuinfo_utils.cpp:87] Failed to open midr file /sys/devices/soc0/image_version
+[cpuinfo_utils.cpp:167] Number of efficient cores 4
+Loading processor + tokenizing prompt: 'The capital of France is'
+  prompt seq_len = 14
+
+Loading /Users/hruthviik/Documents/play_code/gemma4-executorch-pi5/models/gemma4_e2b_text_int4_prefill.pte...
+  method loaded — name=forward, inputs=4, outputs=1
+  metadata: MethodMeta(name='forward', num_inputs=4, input_tensor_meta=['TensorInfo(sizes=[1, 511], dtype=Long, is_memory_planned=True, nbytes=4088)', 'TensorInfo(sizes=[1, 511], dtype=Long, is_memory_planned=True, nbytes=4088)', 'TensorInfo(sizes=[1, 511], dtype=Long, is_memory_planned=True, nbytes=4088)', 'TensorInfo(sizes=[511], dtype=Long, is_memory_planned=True, nbytes=4088)'], num_outputs=1, output_tensor_meta=['TensorInfo(sizes=[1, 511, 262144], dtype=Float, is_memory_planned=True, nbytes...
+  .pte input seq_len: 511
+  padding inputs from seq=14 to seq=511...
+
+Running forward (seq=511)...
+  logits shape: (1, 511, 262144)
+
+  next token: id=818 text='The'
+  top-5 ids: [818, 1018, 236777, 50429, 669]
+
+======================================================================
+  .pte CROSS-CHECK
+======================================================================
+  next-token vs reference: PASS  (.pte=818, ref=818)
+======================================================================

@@ -1,0 +1,8 @@
+W0520 08:15:09.182000 21355 site-packages/torch/distributed/elastic/multiprocessing/redirects.py:29] NOTE: Redirects are currently not supported in Windows or MacOs.
+[eager] loading google/gemma-4-e2b-it on cpu (torch.float32)...
+Loading weights:   0%|          | 0/1951 [00:00<?, ?it/s]Loading weights:   5%|▍         | 96/1951 [00:00<00:02, 876.14it/s]Loading weights:  10%|▉         | 189/1951 [00:00<00:01, 883.75it/s]Loading weights:  14%|█▍        | 282/1951 [00:00<00:01, 894.61it/s]Loading weights:  19%|█▉        | 375/1951 [00:00<00:01, 881.12it/s]Loading weights:  26%|██▌       | 499/1951 [00:00<00:01, 940.96it/s]Loading weights:  32%|███▏      | 623/1951 [00:00<00:01, 939.97it/s]Loading weights:  38%|███▊      | 746/1951 [00:00<00:01, 1017.54it/s]Loading weights:  38%|███▊      | 746/1951 [00:20<00:01, 1017.54it/s]Loading weights:  39%|███▊      | 755/1951 [00:25<01:58, 10.13it/s]  Loading weights:  62%|██████▏   | 1206/1951 [00:25<00:20, 35.51it/s]Loading weights: 100%|██████████| 1951/1951 [00:25<00:00, 75.30it/s]
+[eager] quantizing (Int8 dyn act / Int4 weight, PerGroup(128))...
+[eager] running prefill on prompt: 'The capital of France is' (seq=14)...
+[eager] next token: id=818 text='The'
+[eager] top-5 ids: [818, 1018, 100, 236777, 6372]
+[eager] saved reference -> /Users/hruthviik/Documents/play_code/gemma4-executorch-pi5/cache/verify_int4_reference.pkl

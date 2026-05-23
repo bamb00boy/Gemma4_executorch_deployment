@@ -1,0 +1,37 @@
+# Secrets — never check in.
+.env
+.env.*
+
+# Repo-local caches and downloaded model weights — never check in.
+# These get populated by scripts/_paths.py at runtime and are too big for git.
+cache/
+models/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.python-version
+*.egg-info/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Build / packaging
+dist/
+build/
+*.whl
+
+# Personal notes (per-author study guides / scratch files)
+sg.md
+NOTES.md
+SCRATCH.md
+
+# Author/operator runbook for publishing the .pte to HuggingFace.
+# Not user-facing — kept locally for the maintainer's reference only.
+docs/HUGGINGFACE_PUBLISHING.md
