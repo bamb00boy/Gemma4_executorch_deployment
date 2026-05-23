@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-NOTE: This MIT license covers the *code* in this repository (scripts, runners,
-documentation). It does NOT cover the deployed model weights (`.pte` file),
-which are derived from Google's Gemma 4 model and are subject to Google's
-Gemma Terms of Use. See LICENSE-GEMMA for those terms, which apply whenever
-you redistribute or use any derived weights produced by this codebase.
