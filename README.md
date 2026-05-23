@@ -63,7 +63,7 @@ Measured on identical 14-prompt + 9-decode tokens for `"The capital of France is
 .
 ├── README.md                  # this file
 ├── LICENSE                    # MIT for the code in this repo
-├── LICENSE-GEMMA              # Gemma's Terms of Use (applies to derived .pte)
+├── NOTICE-GEMMA.md            # Gemma 4 attribution + Apache 2.0 + Prohibited Use Policy notice
 ├── KNOWN_ISSUES.md            # upstream bug catalog + workarounds applied
 ├── RESULTS.md                 # engineering log: every bug, every fix, every benchmark
 ├── requirements.txt           # pip-pinned versions that work (Mac dev side)
@@ -109,8 +109,8 @@ Measured on identical 14-prompt + 9-decode tokens for `"The capital of France is
 
 The `.pte` (5.14 GB) is too large for GitHub and is hosted on HuggingFace:
 
-> **HuggingFace model repo:** `<your-user>/gemma4-e2b-int4-executorch-pi5`
-> *(maintainer: replace `<your-user>` with the actual HuggingFace namespace once the model is published.)*
+> **HuggingFace model repo:** [`bamb00boy/gemma4-e2b-int4-executorch-pi5`](https://huggingface.co/bamb00boy/gemma4-e2b-int4-executorch-pi5)
+> *(If the link 404s, the `.pte` upload is still in progress — rebuild locally with the pipeline in [§ To re-build the `.pte` yourself](#to-re-build-the-pte-yourself-on-a-mac-or-other-dev-machine) in the meantime.)*
 
 The HuggingFace repo contains the `.pte`, the tokenizer files, and a copy of `pi_runner.py` and `gemma4_terminal_chat.py`. Total download is approximately 5.2 GB.
 
@@ -121,7 +121,7 @@ On the Pi:
 pip install --user huggingface_hub
 
 # 2. Download the model bundle into ~/gemma4
-huggingface-cli download <your-user>/gemma4-e2b-int4-executorch-pi5 \
+huggingface-cli download bamb00boy/gemma4-e2b-int4-executorch-pi5 \
     --local-dir ~/gemma4 --local-dir-use-symlinks False
 
 # 3. Set up the runtime environment
@@ -244,7 +244,7 @@ Two distinct licenses are in play:
 | Component | License |
 |---|---|
 | Code in this repository (scripts, runners, documentation) | **MIT** — see [LICENSE](LICENSE) |
-| Gemma 4 weights and derivatives (the `.pte`) | **Apache 2.0** + Gemma Prohibited Use Policy — see [LICENSE-GEMMA](LICENSE-GEMMA) for the notice and links to Google's authoritative documents |
+| Gemma 4 weights and derivatives (the `.pte`) | **Apache 2.0** + Gemma Prohibited Use Policy — see [NOTICE-GEMMA.md](NOTICE-GEMMA.md) for the notice and links to Google's authoritative documents |
 
 If you redistribute the `.pte` (e.g., via HuggingFace):
 
@@ -253,7 +253,7 @@ If you redistribute the `.pte` (e.g., via HuggingFace):
 3. Pass through the Gemma Prohibited Use Policy to downstream users (link to it in your model card).
 4. You **do NOT** need to gate the download or require recipient agreement — Apache 2.0 does not impose either. (Gating is optional if you want to track usage.)
 
-For the full license text and authoritative sources (Apache 2.0 page, Prohibited Use Policy, model card), see [LICENSE-GEMMA](LICENSE-GEMMA).
+For the full license text and authoritative sources (Apache 2.0 page, Prohibited Use Policy, model card), see [NOTICE-GEMMA.md](NOTICE-GEMMA.md).
 
 ## Acknowledgments
 
