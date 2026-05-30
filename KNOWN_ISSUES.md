@@ -220,7 +220,7 @@ The `torchao::*affine` ops are emitted by `AffineQuantizedTensor` / `IntxUnpacke
 
 **Workaround applied**
 
-Hand-rolled `Int8Embedding` (`scripts/_int8_embedding.py`) using only standard aten ops (`index_select` + `to(dtype)` + `mul`). All have out-variants, all lower cleanly through XNNPACK. Big size win: `.pte` dropped from 12.18 GB → 5.14 GB.
+Custom `Int8Embedding` (`scripts/_int8_embedding.py`) using only standard aten ops (`index_select` + `to(dtype)` + `mul`). All have out-variants, all lower cleanly through XNNPACK. Significant size reduction: `.pte` dropped from 12.18 GB to 5.14 GB.
 
 **Should upstream report?** Yes — confirmed **not** previously documented. ExecuTorch issue [#1263](https://github.com/pytorch/executorch/issues/1263) (Nov 2023, marked Done) covers the related `quantized_decomposed::quantize_per_tensor` / `dequantize_per_tensor` op family but does **not** cover `torchao::quantize_affine` / `choose_qparams_affine` / `dequantize_affine`. The torchao-namespaced ops are a separate, currently-undocumented gap. File against either ExecuTorch (add out-variants) or torchao (use ExecuTorch-friendly ops for embedding lookup) — the ExecuTorch side is probably the right fix.
 

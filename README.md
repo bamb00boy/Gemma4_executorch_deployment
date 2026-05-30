@@ -1,20 +1,20 @@
 # Gemma 4 E2B → ExecuTorch → Raspberry Pi 5
 
-An end-to-end recipe for deploying Google's **Gemma 4 E2B** (5.5 B parameters, multimodal) on a **Raspberry Pi 5 (8 GB)** through PyTorch's **ExecuTorch 1.2.0** runtime with the **XNNPACK** backend. This is the first publicly documented Gemma 4 deployment via the **ExecuTorch** stack; Gemma 4 has previously been deployed on Pi 5 via `llama.cpp` / GGUF (see [Performance](#performance) for the comparison). The recipe is documented at a level intended to be reproducible by anyone with the listed hardware.
+An end-to-end deployment of Google's **Gemma 4 E2B** (5.5 B parameters, multimodal) on a **Raspberry Pi 5 (8 GB)** through PyTorch's **ExecuTorch 1.2.0** runtime with the **XNNPACK** backend. This is the first publicly documented Gemma 4 deployment via the **ExecuTorch** stack; Gemma 4 has previously been deployed on Pi 5 via `llama.cpp` / GGUF (see [Performance](#performance) for the comparison). The pipeline is documented at a level intended to be reproducible by anyone with the listed hardware.
 
 ## Status
 
 The pipeline runs end-to-end: the `.pte` loads, executes, and produces bit-exact text matching the FP32 reference on Pi 5 hardware. Two qualifications apply:
 
 - **Decode throughput is approximately 7.7× lower than `llama.cpp`** on the same hardware. This repo measures **0.72–0.87 tok/s** decode across sessions; the published [potato-os/core Pi 5 benchmark](https://github.com/potato-os/core/blob/main/docs/benchmarks/gemma4-pi-benchmark-2026-04-04.md) (Gemma 4 E2B, llama_cpp + GGUF, Pi 5 16 GB, April 4 2026) measures **6.71 tok/s** decode. The shipped `.pte` uses `XnnpackPartitioner(per_op_mode=True)` to work around an ARM XNNPACK rejection bug in ExecuTorch 1.2.0 — initially believed to be the root cause of the entire gap. **Subsequent experiments (PT2E, `config_precisions=DYNAMIC_QUANT`, ExecuTorch nightly 1.4.0.dev with default fused partitioner) show the partitioner mode is NOT the bottleneck:** even after recovering 508 fused subgraphs on ARM the decode rate does not improve. Full diagnosis, measured three-way Pi benchmark, and updated remaining-candidate analysis in [KNOWN_ISSUES.md #1](KNOWN_ISSUES.md).
-- If maximum decode throughput on Pi 5 is the only requirement, `llama.cpp` is the appropriate tool. This project provides a reproducible recipe and a catalog of documented gotchas for ExecuTorch's official deployment path on a non-trivial LLM.
+- If maximum decode throughput on Pi 5 is the only requirement, `llama.cpp` is the appropriate tool. This project provides a reproducible end-to-end pipeline and a catalog of documented issues for ExecuTorch's official deployment path on a non-trivial LLM.
 
 ## What this is
 
 | | |
 |---|---|
 | **Model** | `google/gemma-4-e2b-it` (5.5 B params, 35 decoder layers, GQA 8:1, sliding_window=512) |
-| **Quantization** | INT4 weight (torchao `Int8DynamicActivationIntxWeightConfig`) on `nn.Linear`; INT8 per-row hand-rolled `Int8Embedding` on the 2.35 B `embed_tokens_per_layer` |
+| **Quantization** | INT4 weight (torchao `Int8DynamicActivationIntxWeightConfig`) on `nn.Linear`; INT8 per-row custom `Int8Embedding` on the 2.35 B `embed_tokens_per_layer` |
 | **Runtime** | ExecuTorch 1.2.0 with XNNPACK partitioner (`per_op_mode=True`) |
 | **Target** | Raspberry Pi 5 (Cortex-A76, 8 GB RAM, aarch64 Ubuntu Server 24.04) |
 | **Output `.pte` size** | 5.14 GB (fits in Pi 5 RAM with ~3 GB headroom) |
@@ -45,15 +45,15 @@ Measured on identical 14-prompt + 9-decode tokens for `"The capital of France is
 - Not the fastest LLM runtime on Pi 5 — see [Performance](#performance) for the measured comparison.
 - Not a turn-key inference server. The runners process one prompt at a time (one-shot) or one chat session (REPL). No batching, no streaming, no web UI.
 - Not a port of Gemma 4 to GGUF (`llama.cpp` will likely add Gemma 4 support natively at some point; this repo does not compete with that).
-- Not a tutorial on ExecuTorch in general — this is a *specific deployment recipe* and a *catalog of the gotchas encountered on a real model*.
+- Not a tutorial on ExecuTorch in general — this is a *specific deployment pipeline* and a *catalog of issues encountered on a non-trivial model*.
 
 ## Who would actually use this
 
 | Audience | Why this matters to them |
 |---|---|
-| Someone deploying a *custom PyTorch model* (not in any model zoo) on Pi-class hardware | This is the worked example of the toolchain — export → quantize → lower → runtime — applied to a real, hard model. Substitute your model for Gemma 4 and most of the recipe transfers. |
-| Someone wanting an **ExecuTorch CPU/ARM** Gemma recipe | The [official ExecuTorch Gemma 3 example](https://github.com/pytorch/executorch/tree/main/examples/models/gemma3) is CUDA-focused (uses `tile_packed_to_4d` packing, recommends NVIDIA GPUs). This repo fills the CPU + ARM gap for a newer model (Gemma 4) with the gotchas documented. |
-| ExecuTorch contributors / maintainers | [KNOWN_ISSUES.md](KNOWN_ISSUES.md) is a catalog of upstream bugs found during this work — each with a minimal repro path. |
+| Someone deploying a *custom PyTorch model* (not in any model zoo) on Pi-class hardware | This is a worked example of the toolchain — export → quantize → lower → runtime — applied to a non-trivial model. Substitute your model for Gemma 4 and most of the pipeline transfers. |
+| Someone wanting an **ExecuTorch CPU/ARM** Gemma deployment | The [official ExecuTorch Gemma 3 example](https://github.com/pytorch/executorch/tree/main/examples/models/gemma3) is CUDA-focused (uses `tile_packed_to_4d` packing, recommends NVIDIA GPUs). This repo fills the CPU + ARM gap for a newer model (Gemma 4) with the issues documented. |
+| ExecuTorch contributors / maintainers | [KNOWN_ISSUES.md](KNOWN_ISSUES.md) is a catalog of upstream bugs identified during this work — each with a minimal repro path. |
 | Anyone evaluating whether ExecuTorch is production-ready for a new LLM | A concrete-evidence answer: *almost — the specific gaps are documented*. |
 | Anyone retrying this with a newer ExecuTorch / torchao | The pipeline + scripts are in place; `pip install --upgrade executorch`, re-lower, and (if the ARM XNNPACK gap has been fixed upstream) the fast path may light up. |
 
@@ -77,7 +77,7 @@ Measured on identical 14-prompt + 9-decode tokens for `"The capital of France is
 │   ├── _wrapper.py            # TextOnlyWrapper + TextWrapperExternal (export-friendly)
 │   ├── _buffer_cache.py       # nn.Module shim for transformers' StaticCache (Phase 5 fix)
 │   ├── _external_cache.py     # TransientCache: cache as graph inputs, not module state (Phase 6 fix)
-│   ├── _int8_embedding.py     # hand-rolled INT8 Embedding (Phase 6 size win)
+│   ├── _int8_embedding.py     # custom INT8 Embedding (Phase 6 size reduction)
 │   ├── run.sh                 # activates conda env + sources .env + runs a script
 │   ├── 01_smoke_test.py       # Phase 2: load model, verify text + vision generation
 │   ├── 02_inspect.py          # Phase 3: architecture introspection
@@ -94,7 +94,7 @@ Measured on identical 14-prompt + 9-decode tokens for `"The capital of France is
 ├── runner/
 │   ├── pi_runner.py           # one-shot runner: tokenize prompt → generate → exit (250 lines)
 │   └── gemma4_terminal_chat.py # interactive multi-turn chat REPL with KV-cache reuse (~325 lines)
-└── results/                   # per-phase logs from the real runs that produced this recipe
+└── results/                   # per-phase logs from the runs that produced this deployment
     ├── 01_smoke_test.log
     ├── 02_inspect.txt
     ├── 03_export.log
@@ -173,7 +173,7 @@ scripts/deploy_pi.sh    # rsyncs models/ + tokenizer + runner to PI_USER@PI_HOST
 
 See [docs/pi5_setup.md](docs/pi5_setup.md) for full Pi prep (hardware, OS, SSH, performance tuning).
 
-## The journey (TL;DR)
+## Issues encountered
 
 The following issues were encountered and documented during this work (full chronology and fixes in [RESULTS.md](RESULTS.md)):
 
@@ -189,7 +189,7 @@ The following issues were encountered and documented during this work (full chro
 | 8 | `to_executorch()` fires autograd leaf-with-grad check | Phase 5 | Wrap in `torch.inference_mode()` |
 | 9 | `.pte` shape-specializes to upper bound of dynamic `Dim` (no actual runtime dynamism) | Phase 5 | Pad runtime inputs to seq=511 |
 | 10 | Two `.pte`s (prefill + decode) can't share cache state | Phase 6 | Externalize cache as graph inputs/outputs (see `scripts/_external_cache.py`) |
-| 11 | `Int8WeightOnlyConfig` for embeddings has no ExecuTorch out-variants | Phase 6 | Hand-roll `Int8Embedding` using standard aten ops (see `scripts/_int8_embedding.py`) |
+| 11 | `Int8WeightOnlyConfig` for embeddings has no ExecuTorch out-variants | Phase 6 | Custom `Int8Embedding` using standard aten ops (see `scripts/_int8_embedding.py`) |
 | 12 | BF16 + INT4 Linears + INT8 embed → `torchao::quantize_affine` missing out-variants at `to_executorch()` | Phase 6 | Use FP32 baseline (~250 MB regression vs BF16, acceptable) |
 | 13 | torch version mismatch between Mac (lowering) and Pi (runtime) silently breaks XNNPACK | Phase 6 | Pin `torch==2.11.0` in `requirements_pi.txt` |
 | 14 | ARM XNNPACK in `executorch==1.2.0` rejects fused INT4 subgraphs (`xnn_status_invalid_parameter` on tensor 6) | Phase 6 | `XnnpackPartitioner(per_op_mode=True)` — costs us the fast path but unblocks deployment |
@@ -237,7 +237,7 @@ ExecuTorch is implemented in C++; XNNPACK is C++; KleidiAI is C. Python is the o
 - For deployment as a standalone binary or systemd service (no Python environment management).
 - For embedded targets without Python available.
 
-The Python runner is shipped here because it is a ~250-line self-contained script that can be read, modified, or substituted with a different model. For a recipe artifact at the current speed bottleneck, this is the appropriate tradeoff. A C++ runner is a reasonable next step once the compute path is faster.
+The Python runner is shipped here because it is a ~250-line self-contained script that can be read, modified, or substituted with a different model. For an artifact at the current speed bottleneck, this is the appropriate tradeoff. A C++ runner is a reasonable next step once the compute path is faster.
 
 ## License
 
