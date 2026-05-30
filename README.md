@@ -6,7 +6,7 @@ An end-to-end recipe for deploying Google's **Gemma 4 E2B** (5.5 B parameters, m
 
 The pipeline runs end-to-end: the `.pte` loads, executes, and produces bit-exact text matching the FP32 reference on Pi 5 hardware. Two qualifications apply:
 
-- **Decode throughput is approximately 7.7× lower than `llama.cpp`** on the same hardware. This repo measures **0.87 tok/s** decode; the published [potato-os/core Pi 5 benchmark](https://github.com/potato-os/core/blob/main/docs/benchmarks/gemma4-pi-benchmark-2026-04-04.md) (Gemma 4 E2B, llama_cpp + GGUF, Pi 5 16 GB, April 4 2026) measures **6.71 tok/s** decode. The root cause is an ARM XNNPACK rejection bug in ExecuTorch 1.2.0 that requires the workaround `XnnpackPartitioner(per_op_mode=True)`, which neutralizes the kernel-fusion path on which KleidiAI's INT4 matmul speedup depends. The full chain is documented in [KNOWN_ISSUES.md](KNOWN_ISSUES.md).
+- **Decode throughput is approximately 7.7× lower than `llama.cpp`** on the same hardware. This repo measures **0.72–0.87 tok/s** decode across sessions; the published [potato-os/core Pi 5 benchmark](https://github.com/potato-os/core/blob/main/docs/benchmarks/gemma4-pi-benchmark-2026-04-04.md) (Gemma 4 E2B, llama_cpp + GGUF, Pi 5 16 GB, April 4 2026) measures **6.71 tok/s** decode. The shipped `.pte` uses `XnnpackPartitioner(per_op_mode=True)` to work around an ARM XNNPACK rejection bug in ExecuTorch 1.2.0 — initially believed to be the root cause of the entire gap. **Subsequent experiments (PT2E, `config_precisions=DYNAMIC_QUANT`, ExecuTorch nightly 1.4.0.dev with default fused partitioner) show the partitioner mode is NOT the bottleneck:** even after recovering 508 fused subgraphs on ARM the decode rate does not improve. Full diagnosis, measured three-way Pi benchmark, and updated remaining-candidate analysis in [KNOWN_ISSUES.md #1](KNOWN_ISSUES.md).
 - If maximum decode throughput on Pi 5 is the only requirement, `llama.cpp` is the appropriate tool. This project provides a reproducible recipe and a catalog of documented gotchas for ExecuTorch's official deployment path on a non-trivial LLM.
 
 ## What this is
@@ -37,7 +37,7 @@ Measured on identical 14-prompt + 9-decode tokens for `"The capital of France is
 **Notes on the numbers:**
 
 - The Mac CPU decode rate and the published `llama.cpp` Pi 5 rate fall in the same range (~7–9 tok/s decode), indicating that the `.pte` itself runs at competitive speed when the underlying matmul fast-path is reached.
-- The Pi 5 result in this repo is approximately 10× slower than the Mac measurement and approximately 7.7× slower than `llama.cpp` on identical Pi 5 hardware. The gap is attributable entirely to the `per_op_mode=True` workaround applied for the ARM XNNPACK rejection (see [KNOWN_ISSUES.md #1](KNOWN_ISSUES.md)). Recovery of the fused-subgraph path on ARM would close most of this gap.
+- The Pi 5 result in this repo is approximately 10× slower than the Mac measurement and approximately 7.7× slower than `llama.cpp` on identical Pi 5 hardware. **The partitioner mode is not the bottleneck** — a three-way Pi 5 benchmark across `per_op_mode=True` (49 unfused subgraphs), `config_precisions=DYNAMIC_QUANT` (211 fused), and ExecuTorch nightly's default partitioner (508 fused) produced 0.72 / 0.70 / 0.64 tok/s decode respectively, all within sampling noise. The ARM XNNPACK rejection (workaround #14 below) is real and is fixed upstream in nightly, but recovering fused subgraphs alone does not close the gap. Full diagnosis and remaining-candidate analysis in [KNOWN_ISSUES.md #1](KNOWN_ISSUES.md).
 - Mac numbers are listed as a **development reference**, not a competitive benchmark. The M1 Pro and Cortex-A76 represent different CPU generations, ISAs, and process nodes, and Mac is not a deployment target. The figure is included so that those iterating on the scripts on a Mac have a local expectation.
 
 ## What this is not
@@ -117,12 +117,14 @@ The HuggingFace repo contains the `.pte`, the tokenizer files, and a copy of `pi
 On the Pi:
 
 ```bash
-# 1. Install the HuggingFace CLI (one-time)
-pip install --user huggingface_hub
+# 1. Install the HuggingFace CLI (one-time). The `hf` command ships with
+#    huggingface_hub >= 0.30 and is the current canonical CLI; the older
+#    `huggingface-cli` name is still aliased for backward compatibility.
+pip install --user --upgrade huggingface_hub
 
 # 2. Download the model bundle into ~/gemma4
-huggingface-cli download bamb00boy/gemma4-e2b-int4-executorch-pi5 \
-    --local-dir ~/gemma4 --local-dir-use-symlinks False
+hf download bamb00boy/gemma4-e2b-int4-executorch-pi5 \
+    --local-dir ~/gemma4
 
 # 3. Set up the runtime environment
 cd ~/gemma4
